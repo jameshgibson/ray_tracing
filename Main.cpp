@@ -31,7 +31,6 @@ double average(std::vector<double> &nums)
     return avg / (double)nums.size();
 }
 
-
 void process_line(Line &line, Vector<double> &intersection, TestArea &test_area, std::map<Vector<int>, std::set<Vector<double> > > &points)
 {
     if (test_area.contains(intersection))
@@ -40,16 +39,16 @@ void process_line(Line &line, Vector<double> &intersection, TestArea &test_area,
 
 	for (std::vector<Vector<int> >::iterator it = vox.begin(); 
 	     it != vox.end(); ++it)
-	{
+	{   
 	    if (points.find(*it) != points.end()) 
-	    {
-		points[*it].insert(intersection);
+	    {	
+	    	points[*it].insert(intersection);
 	    }
 	    else
 	    {
-		std::set<Vector<double> > np;
-		np.insert(intersection);
-		points.insert(std::make_pair(*it, np));
+	    	std::set<Vector<double> > np;
+	    	np.insert(intersection);
+	    	points.insert(std::make_pair(*it, np));
 	    }
 	}
     }
@@ -59,9 +58,9 @@ int main(int argc, char *argv[])
 {
     int x_max = 2500, x_min = -x_max;
     int y_max = 2500, y_min = -y_max;
-    int z_max = 2500, z_min = -z_max;
+    int z_max = 2500, z_min = -2500;
  
-    int voxel_size = 100;
+    int voxel_size = 50;
     double length_scaler = 1;
 
 
@@ -81,6 +80,7 @@ int main(int argc, char *argv[])
 
 	for (int x = x_min; x <= x_max; x += voxel_size)
 	{
+	   
 	    Vector<double> intersection = line.x_intersection(x);   
 	    process_line(line, intersection, test_area, points);
 	}
@@ -108,6 +108,8 @@ int main(int argc, char *argv[])
 		Vector<double> two = *(++sps);
 		double dist = one.distance_to(two);
 
+		dist *= length_scaler;
+
 		if (lengths.find(pos) == lengths.end())
 		{
 		    std::vector<double> dists;
@@ -120,16 +122,15 @@ int main(int argc, char *argv[])
 		}
 	    }
 	}
-	break;
     }
 
     for (std::map<Vector<int>, std::vector<double> >::iterator it = lengths.begin();
-	 it != lengths.end(); ++it)
+    	 it != lengths.end(); ++it)
     {
-	std::cout << test_area.get_corner(it->first.x, x_min) << " " 
-		  << test_area.get_corner(it->first.y, y_min) << " " 
-		  << test_area.get_corner(it->first.z, z_min) << " " 
-		  << average(it->second) << std::endl;
+    	std::cout << test_area.get_corner(it->first.x, x_min) << " " 
+    		  << test_area.get_corner(it->first.y, y_min) << " " 
+    		  << test_area.get_corner(it->first.z, z_min) << " " 
+    		  << average(it->second) << std::endl;
     }
 
     

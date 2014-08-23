@@ -2,6 +2,7 @@
 
 #include <ostream>
 
+
 template<typename T>
 struct Vector
 {
@@ -11,8 +12,15 @@ struct Vector
     T x, y, z;    
     bool operator <(const Vector<T> &other) const
 	{
-	    return this->x < other.x || this->y < other.y || this->z < other.z;
+	    if (this->x < other.x)
+		return true;
+	    if (this->x == other.x && this->y < other.y)
+		return true;
+	    if (this->x == other.x && this->y == other.y && this->z < other.z)
+		return true;
+	    return false;
 	}
+    
     virtual void print(std::ostream &out) { out << x << " " << y << " " << z << std::endl; }
 
     T distance_to(const Vector<T> &v) const;

@@ -53,6 +53,7 @@ std::vector<Vector<int> > TestArea::get_voxels(Vector<double> &point)
 	    voxels.push_back(Vector<int>((x_comp - 1), y_comp, z_comp));
 	}
     }
+
     if (on_plane(point.y, y_min)
 	&& x_comp < x_voxel_limit() 
 	&& z_comp < z_voxel_limit())
@@ -62,6 +63,7 @@ std::vector<Vector<int> > TestArea::get_voxels(Vector<double> &point)
 	    voxels.push_back(Vector<int>(x_comp, (y_comp - 1), z_comp));
 	}
     }
+
     if (on_plane(point.z, z_min)
 	&& x_comp < x_voxel_limit() 
 	&& y_comp < y_voxel_limit())
