@@ -6,6 +6,7 @@
 #include "TestArea.hpp"
 #include "Line.hpp"
 #include "Vector.hpp"
+#include "Math.hpp"
 
 std::map<int, Line> read_lines(std::ifstream &is)
 {
@@ -20,17 +21,6 @@ std::map<int, Line> read_lines(std::ifstream &is)
     return lines;
 }
 
-double average(std::vector<double> &nums)
-{
-    double avg = 0;
-    for (std::vector<double>::iterator it = nums.begin();
-	 it != nums.end(); ++it)
-    {
-	avg += *it;
-    }
-    return avg / (double)nums.size();
-}
-
 void process_line(Line &line, Vector<double> &intersection, TestArea &test_area, std::map<Vector<int>, std::set<Vector<double> > > &points)
 {
     if (test_area.contains(intersection))
@@ -40,6 +30,7 @@ void process_line(Line &line, Vector<double> &intersection, TestArea &test_area,
 	for (std::vector<Vector<int> >::iterator it = vox.begin(); 
 	     it != vox.end(); ++it)
 	{   
+
 	    if (points.find(*it) != points.end()) 
 	    {	
 	    	points[*it].insert(intersection);
@@ -76,11 +67,11 @@ int main(int argc, char *argv[])
 	 it != lines.end(); ++it)
     {
 	Line line = it->second;
+	
 	std::map<Vector<int>, std::set<Vector<double> > > points;
 
 	for (int x = x_min; x <= x_max; x += voxel_size)
 	{
-	   
 	    Vector<double> intersection = line.x_intersection(x);   
 	    process_line(line, intersection, test_area, points);
 	}
@@ -101,12 +92,14 @@ int main(int argc, char *argv[])
 	     it != points.end(); ++it)
 	{
 	    Vector<int> pos = it->first;
-	    if (it->second.size() == 2)
+          
+            if (it->second.size() == 2)
 	    {
 		std::set<Vector<double> >::iterator sps = it->second.begin();
 		Vector<double> one = *sps;
 		Vector<double> two = *(++sps);
-		double dist = one.distance_to(two);
+
+            	double dist = one.distance_to(two);
 
 		dist *= length_scaler;
 
@@ -128,12 +121,10 @@ int main(int argc, char *argv[])
     	 it != lengths.end(); ++it)
     {
     	std::cout << test_area.get_corner(it->first.x, x_min) << " " 
-    		  << test_area.get_corner(it->first.y, y_min) << " " 
-    		  << test_area.get_corner(it->first.z, z_min) << " " 
-    		  << average(it->second) << std::endl;
-    }
-
-    
+          << test_area.get_corner(it->first.y, y_min) << " " 
+          << test_area.get_corner(it->first.z, z_min) << " " 
+          << average(it->second) << std::endl;
+    }   
 
     return 0;
 }
