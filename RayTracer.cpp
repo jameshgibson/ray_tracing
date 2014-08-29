@@ -87,10 +87,10 @@ void RayTracer::add_adjacent_lengths(double scaler)
 	    std::set<pointf_t>::iterator sps = iter->second.begin();
 	    pointf_t one = *sps;
 	    pointf_t two = *(++sps);
-
 	    double len = one.distance_to(two);
-
 	    len *= scaler;
+
+	    std::map<pointi_t, double> adjs;
 
 	    for (int x = position.x - 1; x <= position.x + 1; ++x)
 	    {
@@ -102,20 +102,30 @@ void RayTracer::add_adjacent_lengths(double scaler)
 
 			if (point_map.find(adj) == point_map.end())
 			{
-			    if (length_map.find(adj) == length_map.end())
+			    if (adjs.find(adj) == adjs.end())
 			    {
-				std::vector<double> lens;
-				lens.push_back(len);
-				length_map.insert(std::make_pair(adj, lens));
-			    }
-			    else
-			    {
-				length_map[adj].push_back(len);
+			        adjs.insert(std::make_pair(adj, len));
 			    }
 			}
 		    }
 		}
 	    }
+
+	    for (std::map<pointi_t, double>::iterator it = adjs.begin(); 
+		 it != adjs.end(); ++it)
+	    {
+		if (length_map.find(it->first) == length_map.end())
+		{
+		    std::vector<double> lens;
+		    lens.push_back(it->second);
+		    length_map.insert(std::make_pair(it->first, lens));
+		}
+		else
+		{
+		    length_map[it->first].push_back(len);
+		}
+	    }
+
 	}
     }
 }
