@@ -92,16 +92,14 @@ void RayTracer::add_adjacent_lengths(double scaler)
 
 	    len *= scaler;
 
-	    int x = position.x - 1;
-	    int y = position.y - 1;
-	    int z = position.z - 1;
-	    for (; x <= position.x + 1; ++x)
+	    for (int x = position.x - 1; x <= position.x + 1; ++x)
 	    {
-		for (; y <= position.y + 1; ++y)
+		for (int y = position.y - 1; y <= position.y + 1; ++y)
 		{
-		    for (; z <= position.z + 1; ++z)
+		    for (int z = position.z - 1; z <= position.z + 1; ++z)
 		    {
 			pointi_t adj = pointi_t(x, y, z);
+
 			if (point_map.find(adj) == point_map.end())
 			{
 			    if (length_map.find(adj) == length_map.end())
