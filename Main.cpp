@@ -55,6 +55,8 @@ int main(int argc, char *argv[])
     {
 	pointi_t pos = iter->first;
 	double dist = average(iter->second);
+
+	
 	//std::cout << pos.x << " " << pos.y << " " << pos.z << " " << dist << std::endl;
 	std::cout << test_area.get_corner(pos.x, x_min) << " " 
 		  << test_area.get_corner(pos.y, y_min) << " " 
