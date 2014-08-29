@@ -10,7 +10,7 @@ template<class container>
 typename container::value_type average(const container &nums, typename container::value_type init = 0.0)
 {
     typename container::const_iterator it = nums.begin();
-    for (; it < nums.begin(); ++it)
+    for (; it < nums.end(); ++it)
     {
 	init += *it;
     }

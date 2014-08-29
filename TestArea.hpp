@@ -17,7 +17,16 @@ public:
     std::vector<Vector<int> > get_voxels(Vector<double> &point);    
     bool contains(Vector<double> &point);
     int get_corner(int, int);
-    
+
+    inline int get_x_min() { return x_min; }
+    inline int get_y_min() { return y_min; }
+    inline int get_z_min() { return z_min; }
+
+    inline int get_x_max() { return x_max; }
+    inline int get_y_max() { return y_max; }
+    inline int get_z_max() { return z_max; }
+
+    inline int get_voxel_size() { return voxel_size; }
 private:
 
     inline int x_voxel_limit() { return (x_max - x_min) / voxel_size; }
