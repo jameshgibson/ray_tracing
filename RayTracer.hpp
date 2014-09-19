@@ -23,6 +23,7 @@ public:
 
     inline length_map_t get_lengths() { return length_map; }
     inline id_map_t get_ids() { return id_map; }
+    inline void should_add_adjacents(bool value) { add_adjacents = value; }
 
 private:
 
@@ -31,8 +32,9 @@ private:
     point_map_t point_map;
     length_map_t length_map;
     id_map_t id_map;
+    bool add_adjacents;
 
-void process_intersections(int min, int max, Line &line, pointf_t (Line::*get_intersection)(double));
+    void process_intersections(int min, int max, Line &line, pointf_t (Line::*get_intersection)(double));
     void add_intersection_to_point_map(pointf_t &intersection);
     void add_lengths();
     void add_ids(int line_id);

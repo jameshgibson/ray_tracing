@@ -1,6 +1,6 @@
 #include "RayTracer.hpp"
 
-RayTracer::RayTracer(TestArea test_area) : test_area(test_area) {}
+RayTracer::RayTracer(TestArea test_area) : test_area(test_area), add_adjacents(true) {}
 
 void RayTracer::process_line(int id, Line &line, double scaler)
 {
@@ -76,6 +76,8 @@ void RayTracer::add_lengths()
 
 void RayTracer::add_adjacent_lengths(double scaler)
 {
+    if (!add_adjacents) return;
+
     point_map_t::iterator iter = point_map.begin();
 
     std::map<pointi_t, double> adjs;

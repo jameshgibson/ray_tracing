@@ -2,6 +2,7 @@
 #include <fstream>
 #include <map>
 #include <set>
+#include <cstring>
 
 #include "TestArea.hpp"
 #include "Line.hpp"
@@ -40,6 +41,15 @@ int main(int argc, char *argv[])
     std::ifstream muons(argv[1]);
     std::map<int, Line> lines = read_lines(muons);
 
+    if (argc > 2) 
+    {
+	if (std::strcmp(argv[2], "false") == 0) ray_tracer.should_add_adjacents(false);
+	if (std::strcmp(argv[2], "true") != 0 && std::strcmp(argv[2], "false") != 0) 
+	{
+	    std::cout << "arguments wrong:\n\n\t usage: ./ra muon_file [true|false]" << std::endl;
+	    return 1;
+	}
+    }
       
     for (std::map<int, Line>::iterator it = lines.begin(); 
 	 it != lines.end(); ++it)
@@ -54,7 +64,7 @@ int main(int argc, char *argv[])
     for (; iter != length_map.end(); ++iter)
     {
 	pointi_t pos = iter->first;
-	double dist = average(iter->second);
+	double dist = sum(iter->second);
 
 	
 	//std::cout << pos.x << " " << pos.y << " " << pos.z << " " << dist << std::endl;
