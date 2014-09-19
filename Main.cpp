@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <map>
-#include <set>
 #include <cstring>
+#include <cstdlib>
 
 #include "TestArea.hpp"
 #include "Line.hpp"
@@ -32,7 +32,11 @@ int main(int argc, char *argv[])
  
     int voxel_size = 50;
     double length_scaler = 0.5;
-
+    unsigned int min_intersections = 2;
+    if (argc > 3)
+    {
+	min_intersections = std::atoi(argv[3]);
+    }
 
     TestArea test_area(x_max, x_min, y_max, y_min, z_max, z_min, voxel_size);
 
@@ -46,7 +50,7 @@ int main(int argc, char *argv[])
 	if (std::strcmp(argv[2], "false") == 0) ray_tracer.should_add_adjacents(false);
 	if (std::strcmp(argv[2], "true") != 0 && std::strcmp(argv[2], "false") != 0) 
 	{
-	    std::cout << "arguments wrong:\n\n\t usage: ./ra muon_file [true|false]" << std::endl;
+	    std::cout << "arguments wrong:\n\n\t usage: ./ra muon_file [true|false] [min_intersections]" << std::endl;
 	    return 1;
 	}
     }
@@ -63,9 +67,10 @@ int main(int argc, char *argv[])
     length_map_t::iterator iter = length_map.begin();
     for (; iter != length_map.end(); ++iter)
     {
+	if (iter->second.size() < min_intersections) continue;
+
 	pointi_t pos = iter->first;
 	double dist = sum(iter->second);
-
 	
 	//std::cout << pos.x << " " << pos.y << " " << pos.z << " " << dist << std::endl;
 	std::cout << test_area.get_corner(pos.x, x_min) << " " 
